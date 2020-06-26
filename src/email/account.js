@@ -4,6 +4,7 @@ const mailgun = require("mailgun-js");
 const DOMAIN = process.env.DOMAIN;
 const mg = mailgun({apiKey:process.env.EMAIL_KEY, domain: DOMAIN});
 
+// send and email for creating an account
 const sendWelComeEmail=  (email,name)=>{
     mg.messages().send({
         from:"ankitghosh311@outlook.com",
@@ -13,6 +14,8 @@ const sendWelComeEmail=  (email,name)=>{
     }).then(data=>console.log("send successful")).catch(err=>console.log(err))
 }
 
+
+// delete email for removing an account
 const cancelEmail =(email,name)=>{
        mg.messages().send({
         from:"ankitghosh311@outlook.com",

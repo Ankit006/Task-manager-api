@@ -21,17 +21,20 @@ router.post("/tasks",auth,async (req,res)=>{
 // get all task data
 
 router.get("/tasks",auth,async (req,res)=>{
+    // get completed task
     let complete;
     if(req.query.completed){
         complete = {owner:req.user._id,completed:req.query.completed};
     }else{
         complete = {owner:req.user._id};
     }
+    // get the sorted task
     let sort = {};
     if(req.query.sortBy){
         const parts = req.query.sortBy.split(":");
         sort[parts[0]] = parts[1] === "desc"?-1:1;
     }
+    
     try{
         const task = await Task.find(complete,null,{limit:parseInt(req.query.limit),skip:parseInt(req.query.skip),sort}); 
         res.status(200).send(task)

@@ -10,7 +10,7 @@ const {sendWelComeEmail,cancelEmail} = require("../email/account");
 //create user
 router.post("/users", async (req,res)=>{
     const user =  new User(req.body);
-    const token = await user.generateAuthToken()
+    const token = await user.generateAuthToken() // generate auth token 
     try{
         await user.save();
         sendWelComeEmail(user.email,user.name);
@@ -110,7 +110,7 @@ const upload = multer({
         cb(undefined,true)
     }
 })
-
+// view the profile image
 router.post("/users/me/avatar",auth,upload.single("upload"),async (req,res)=>{
     const buffer =  await sharp(req.file.buffer).resize({
         width:250,
