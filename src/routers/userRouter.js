@@ -4,6 +4,7 @@ const User = require("../models/user");
 const auth = require("../middleware/auth");
 const multer = require("multer");
 const sharp = require("sharp");
+const Task = require("../models/task");
 const {sendWelComeEmail,cancelEmail} = require("../email/account");
 ////////// CRUD operation for user data ////////////
 
@@ -90,6 +91,7 @@ router.patch("/users/update/me",auth,async(req,res)=>{
 // delete user data
 router.delete("/users/me", auth,async (req,res)=>{
     try{
+        Task.deleteMany({owner:req.user.id})
         await req.user.remove()
         cancelEmail(req.user.email,req.user.name)
         res.status(200).send(req.user)
